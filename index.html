@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendHive Store </title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <meta property="og:type" content="product" />
+    <meta property="og:title" content="TrendHive Store - Premium Product Collection" />
+    <meta property="og:description" content="Discover handpicked deals on electronics, fashion, and home goods." />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop" />
+    
+    <script>
+        // Tailwind Configuration for custom colors/theme
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: '#6366f1', /* Indigo */
+                            secondary: '#a855f7', /* Purple */
+                            accent: '#f97316', /* Orange (Amazon-like) */
+                            pinterest: '#bd081c',
+                        },
+                        slate: {
+                            950: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Smooth scale effect on hover for images */
+        .group:hover .group-hover\:scale-110 {
+            transform: scale(1.1);
+        }
+        
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #c7d2fe;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #a5b4fc;
+        }
+
+        /* Prevent flickering before Alpine loads */
+        [x-cloak] { 
+            display: none !important; 
+        }
+
+        /* Detail Image Transitions */
+        #detail-img {
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans antialiased text-slate-900" x-data="{ page: 'home' }">
+
+    <header id="navbar" class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 transition-all duration-300">
+        <nav class="container mx-auto px-4 h-20 flex items-center justify-between">
+            <a href="#" @click.prevent="page = 'home'; window.scrollTo(0,0)" 
+               class="flex flex-col items-start gap-0 group relative no-underline hover:no-underline"
+               style="font-family: 'Dancing Script', cursive;">
+                
+                <span class="text-4xl font-bold tracking-tight text-slate-950 group-hover:text-brand-primary transition-colors duration-300">
+                    Trend<span class="text-brand-primary group-hover:text-slate-950">Hive</span>
+                </span>
+                
+                <span class="text-xs font-medium text-slate-500 -mt-1 ml-1 font-sans tracking-wider uppercase">
+                    Store
+                </span>
+                
+                <span class="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-500 rounded-full"></span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-1 font-medium text-slate-700">
+                <button onclick="filterCategory('all')" class="px-4 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all active:scale-95">All</button>
+                <button onclick="filterCategory('Electronics')" class="px-4 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all active:scale-95">Electronics</button>
+                <button onclick="filterCategory('Fashion')" class="px-4 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all active:scale-95">Fashion</button>
+                <button onclick="filterCategory('Home')" class="px-4 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all active:scale-95">Home</button>
+                
+                <div class="relative ml-4 group">
+                    <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="Search products..." 
+                           class="bg-slate-100 border border-slate-200 rounded-full pl-10 pr-4 py-2 focus:ring-2 focus:ring-brand-primary focus:bg-white outline-none w-64 transition-all">
+                    <svg class="w-5 h-5 absolute left-3 top-2.5 text-slate-400 group-focus-within:text-brand-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <button class="md:hidden p-2 text-slate-900 rounded-lg hover:bg-slate-100">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <main class="pt-20">
+        
+        <section id="home-page" x-show="page === 'home'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0">
+            
+            <div class="relative overflow-hidden bg-slate-950 text-white h-[60vh] md:h-[75vh]" 
+                 x-data="{ 
+                    activeSlide: 0, 
+                    slides: [
+                        { img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1920&auto=format&fit=crop', title: 'Minimalist Tech Essentials', desc: 'Upgrade your desk setup with our curated devices.' },
+                        { img: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1920&auto=format&fit=crop', title: 'Spring Fashion Arrival', desc: 'Discover the freshest trends for the new season.' },
+                        { img: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1920&auto=format&fit=crop', title: 'Modern Home Decor', desc: 'Transform your living space with stylized comfort.' }
+                    ] 
+                 }" 
+                 x-init="setInterval(() => activeSlide = (activeSlide + 1) % slides.length, 5000)">
+        
+                <template x-for="(slide, index) in slides" :key="index">
+                    <div class="absolute inset-0 w-full h-full" 
+                         x-show="activeSlide === index"
+                         x-transition:enter="transition opacity-0 duration-1000 ease-in-out"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition opacity-100 duration-1000 ease-in-out"
+                         x-transition:leave-end="opacity-0">
+                        
+                        <img :src="slide.img" class="absolute inset-0 w-full h-full object-cover opacity-50 scale-105" loading="lazy">
+                        
+                        <div class="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center relative z-10">
+                            <span class="inline-block px-4 py-1 bg-brand-primary rounded-full text-xs font-bold uppercase tracking-widest mb-4 shadow-lg animate-bounce">Featured Collection</span>
+                            <h1 class="text-4xl md:text-7xl font-extrabold tracking-tighter mb-6 leading-tight drop-shadow-md" x-text="slide.title"></h1>
+                            <p class="text-lg md:text-2xl text-slate-200 max-w-2xl mb-10 drop-shadow-sm" x-text="slide.desc"></p>
+                            <button onclick="document.getElementById('product-grid').scrollIntoView({behavior: 'smooth'})" 
+                                    class="bg-white text-slate-950 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:bg-brand-primary hover:text-white transition transform hover:scale-105 active:scale-95">
+                                Explore Store
+                            </button>
+                        </div>
+                    </div>
+                </template>
+                
+                <div class="absolute inset-0 flex items-center justify-between px-4 z-30 pointer-events-none">
+                    <button @click="activeSlide = (activeSlide - 1 + slides.length) % slides.length" 
+                            class="pointer-events-auto bg-white/10 backdrop-blur-md p-3 rounded-full hover:bg-white/30 transition shadow-xl border border-white/20 active:scale-90">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button @click="activeSlide = (activeSlide + 1) % slides.length" 
+                            class="pointer-events-auto bg-white/10 backdrop-blur-md p-3 rounded-full hover:bg-white/30 transition shadow-xl border border-white/20 active:scale-90">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+
+                <div class="absolute bottom-6 w-full flex justify-center gap-2 z-30">
+                    <template x-for="(slide, index) in slides" :key="index">
+                        <button @click="activeSlide = index" 
+                                :class="activeSlide === index ? 'w-8 bg-brand-primary' : 'w-2 bg-white/50'" 
+                                class="h-2 rounded-full transition-all duration-300"></button>
+                    </template>
+                </div>
+            </div>
+                
+            <div class="container mx-auto px-4 py-16">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 border-b border-slate-200 pb-6 gap-4">
+                    <h2 class="text-4xl font-extrabold text-slate-950 tracking-tighter">Latest Arrivals</h2>
+                    <div id="filter-status" class="text-sm font-medium text-slate-500 bg-slate-100 px-6 py-2 rounded-full border border-slate-200 shadow-sm">
+                        Showing: All Products
+                    </div>
+                </div>
+                
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                    </div>
+            </div>
+        </section>
+
+        <section id="detail-page" x-show="page === 'detail'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" class="container mx-auto px-4 py-16">
+            
+            <button @click="page = 'home'" class="mb-10 text-brand-primary font-bold flex items-center hover:text-brand-secondary transition group">
+                <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7 7-7"></path>
+                </svg>
+                Back to Arrivals
+            </button>
+            
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-slate-100">
+                <div class="md:w-1/2 bg-slate-100 flex items-center justify-center relative p-8 md:p-12">
+                    <img id="detail-img" src="" alt="Product Detail" class="w-full h-auto object-contain max-h-[550px] mix-blend-multiply">
+                    <span id="detail-tag" class="absolute top-6 left-6 inline-block px-4 py-1.5 bg-brand-primary text-white rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">Category</span>
+                </div>
+                
+                <div class="md:w-1/2 p-10 md:p-16 space-y-8 flex flex-col justify-center">
+                    <h2 id="detail-title" class="text-5xl font-extrabold text-slate-950 leading-tight tracking-tighter">Product Title</h2>
+                    
+                    <div class="flex items-baseline gap-2 border-t border-slate-200 pt-6">
+                        <span id="detail-price" class="text-5xl font-black text-slate-950 tracking-tighter">$0.00</span>
+                        <span class="text-slate-500 font-medium">(Check Amazon for latest price)</span>
+                    </div>
+                    
+                    <p class="text-slate-600 text-lg leading-relaxed">Experience uncompromised quality with this handpicked selection. Verified by TrendHive for style and function. Click 'Buy Now' to view full specifications, customer reviews, and the final price on Amazon.</p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-5 pt-8 border-t border-slate-200">
+                        <a id="amazon-link" href="#" target="_blank" rel="nofollow noopener" 
+                           class="flex-1 bg-brand-accent text-white text-center py-5 rounded-2xl font-bold text-xl hover:bg-orange-600 transition shadow-lg shadow-orange-200 transform hover:-translate-y-1 active:scale-95">
+                            Buy Now on Amazon
+                        </a>
+                        <a id="pinterest-link" href="#" target="_blank" rel="noopener" 
+                           class="flex-1 bg-brand-pinterest text-white text-center py-5 rounded-2xl font-bold text-xl hover:bg-red-700 transition shadow-lg shadow-red-200 flex items-center justify-center gap-2 transform hover:-translate-y-1 active:scale-95">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.08 3.125 9.426 7.561 11.205-.102-.947-.194-2.4.041-3.432.211-.933 1.365-5.789 1.365-5.789s-.348-.697-.348-1.727c0-1.618.938-2.825 2.106-2.825 1.001 0 1.485.753 1.485 1.655 0 1.006-.641 2.51-.971 3.905-.276 1.168.584 2.119 1.737 2.119 2.083 0 3.682-2.196 3.682-5.366 0-2.805-2.016-4.767-4.897-4.767-3.337 0-5.292 2.502-5.292 5.087 0 1.01.389 2.091.874 2.682.096.118.11.221.082.338-.091.378-.291 1.189-.33 1.354-.051.216-.17.262-.39.16-1.455-.677-2.365-2.802-2.365-4.51 0-3.67 2.67-7.043 7.69-7.043 4.037 0 7.172 2.877 7.172 6.721 0 4.01-2.527 7.238-6.035 7.238-1.179 0-2.286-.613-2.665-1.334 0 0-.583 2.218-.725 2.768-.262 1.013-.974 2.283-1.45 3.064C10.155 23.834 11.066 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+                            Save Pin
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <section id="about-page" x-show="page === 'about'" x-cloak x-transition>
+    </section>
+
+<section id="privacy-page" x-show="page === 'privacy'" x-cloak x-transition>
+    </section>
+
+<section id="terms-page" x-show="page === 'terms'" x-cloak x-transition>
+    </section>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-950 text-white py-16 mt-24">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+            <div class="space-y-4">
+                <a href="#" class="flex items-center gap-2 justify-center md:justify-start">
+                    <div class="w-7 h-7 bg-brand-primary rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">T</span>
+                    </div>
+                    <span class="text-2xl font-extrabold tracking-tighter" style="font-family: 'Dancing Script', cursive;">TrendHive<span class="text-sm text-slate-500 ml-1 font-sans uppercase">Store</span></span>
+                </a>
+                <p class="text-slate-400 max-w-sm mx-auto md:mx-0 leading-relaxed">Handpicked by experts and verified for premium quality, ensuring you shop with total confidence</p>
+            </div>
+            
+            <div class="flex flex-col items-center md:items-start space-y-3 text-slate-400">
+                <h4 class="font-bold text-lg text-white mb-2 tracking-tight">Company</h4>
+                <a href="About.html" class="hover:text-brand-primary transition-colors">About TrendHive</a>
+                <a href="Privacy.html" class="hover:text-brand-primary transition-colors">Privacy Policy</a>
+                <a href="Terms.html" class="hover:text-brand-primary transition-colors">Terms & Conditions</a>
+            </div>
+            
+            
+
+
+
+            
+           
+            
+            <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+                At <span class="text-brand-primary font-semibold">TrendHive</span>, we believe that your time is valuable. Our mission is to filter through the noise and bring you only the most reliable, stylish, and high-performance products directly from verified sources. Shop smart, live better.
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        </div>
+        
+        <div class="container mx-auto px-4 border-t border-slate-800 mt-12 pt-8 text-center text-slate-600 text-sm">
+            &copy; 2026 TrendHive Store. 
+        </div>
+    </footer>
+
+    <script>
+        // 1. PRODUCT DATABASE (EXTENDED TO 20 UNIQUE ITEMS)
+      // 1. PRODUCT DATABASE (20 UNIQUE ITEMS)
+const products = [
+    { id: 1, title: "Sony WH-1000XM5", price: "398", cat: "Electronics", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e", desc: "Industry-leading noise cancellation with two processors controlling 8 microphones for pure sound.", p_link: "https://www.pinterest.com/pin/your-link-1" ,site_link: "https://www.aliexpress.com/item/123.html"},
+    { id: 2, title: "Apple Watch Series 9", price: "329", cat: "Electronics", img: "https://images.unsplash.com/photo-1544117518-30df578096a4", desc: "The most powerful chip in Apple Watch ever. Features a magical new way to use your watch without touching.", p_link: "https://www.pinterest.com/pin/your-link-2" },
+    { id: 3, title: "Logitech MX Master 3S", price: "99", cat: "Electronics", img: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46", desc: "Ergonomic wireless mouse with 8K DPI any-surface tracking and quiet clicks for maximum focus.", p_link: "https://www.pinterest.com/pin/your-link-3" },
+    { id: 4, title: "Kindle Paperwhite", price: "149", cat: "Electronics", img: "https://images.unsplash.com/photo-1594980596229-6aad953bc73f", desc: "A 6.8-inch display and adjustable warm light for the best reading experience anywhere.", p_link: "https://www.pinterest.com/pin/your-link-4" },
+    { id: 5, title: "Levi's Denim Jacket", price: "89", cat: "Fashion", img: "https://images.unsplash.com/photo-1576871333020-00877990479b", desc: "The original jean jacket since 1967. Durable, stylish, and gets better with age.", p_link: "https://www.pinterest.com/pin/your-link-5" },
+    { id: 6, title: "Nike Air Max 270", price: "160", cat: "Fashion", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff", desc: "Features Nike's biggest Air unit for a super-soft ride that feels like walking on clouds.", p_link: "https://www.pinterest.com/pin/your-link-6" },
+    { id: 7, title: "Ray-Ban Aviator", price: "171", cat: "Fashion", img: "https://images.unsplash.com/photo-1511499767350-a45a1bb9057b", desc: "Classic pilot design with polarized lenses. 100% UV protection with timeless style.", p_link: "https://www.pinterest.com/pin/your-link-7" },
+    { id: 8, title: "Herschel Backpack", price: "80", cat: "Fashion", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62", desc: "Modern functionality with a classic mountaineering look. Includes a padded laptop sleeve.", p_link: "https://www.pinterest.com/pin/your-link-8" },
+    { id: 9, title: "Nespresso Vertuo", price: "129", cat: "Home", img: "https://images.unsplash.com/photo-1517256011271-1015e00fbbf3", desc: "Brews barista-quality coffee with one touch. Compact design for any kitchen counter.", p_link: "https://www.pinterest.com/pin/your-link-9" },
+    { id: 10, title: "Vitamix Blender", price: "349", cat: "Home", img: "https://images.unsplash.com/photo-1570222094114-d054a817e56b", desc: "Professional-grade power. Perfect for smoothies, hot soups, and frozen desserts.", p_link: "https://www.pinterest.com/pin/your-link-10" },
+    { id: 11, title: "Philips Hue Kit", price: "199", cat: "Home", img: "https://images.unsplash.com/photo-1550985616-10810253b84d", desc: "Transform your home lighting with millions of colors controlled from your phone.", p_link: "https://www.pinterest.com/pin/your-link-11" },
+    { id: 12, title: "Yeti Rambler", price: "35", cat: "Home", img: "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e", desc: "Double-wall vacuum insulation. Keeps your water ice cold or coffee hot all day.", p_link: "https://www.pinterest.com/pin/your-link-12" },
+    { id: 13, title: "Fujifilm Instax Mini 12", price: "79", cat: "Electronics", img: "https://images.unsplash.com/photo-1526170315870-ef6d82f583ad", desc: "Capture memories instantly with automatic exposure and built-in selfie mirror.", p_link: "https://www.pinterest.com/pin/your-link-13" },
+    { id: 14, title: "North Face Shell", price: "120", cat: "Fashion", img: "https://images.unsplash.com/photo-1624206112910-b4f923282205", desc: "Fully waterproof and windproof jacket. Lightweight and breathable for any weather.", p_link: "https://www.pinterest.com/pin/your-link-14" },
+    { id: 15, title: "Hydro Flask 32oz", price: "44", cat: "Home", img: "https://images.unsplash.com/photo-1602143399827-bd9349339958", desc: "Stainless steel water bottle with wide mouth for easy cleaning and ice filling.", p_link: "https://www.pinterest.com/pin/your-link-15" },
+    { id: 16, title: "Anker GaN Charger", price: "59", cat: "Electronics", img: "https://images.unsplash.com/photo-1622445272461-c6580cab8755", desc: "Charge your MacBook, iPhone, and AirPods at the same time with this compact hub.", p_link: "https://www.pinterest.com/pin/your-link-16" },
+    { id: 17, title: "Carhartt Beanie", price: "19", cat: "Fashion", img: "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9", desc: "Acrylic rib-knit fabric provides maximum warmth. The classic go-to winter hat.", p_link: "https://www.pinterest.com/pin/your-link-17" },
+    { id: 18, title: "Ember Smart Mug 2", price: "145", cat: "Home", img: "https://images.unsplash.com/photo-1577962917302-cd874c4e31d2", desc: "Control the temperature of your coffee through your smartphone. Pure luxury.", p_link: "https://www.pinterest.com/pin/your-link-18" },
+    { id: 19, title: "Bose SoundLink Flex", price: "149", cat: "Electronics", img: "https://images.unsplash.com/photo-1608156639585-b3a032ef9689", desc: "Waterproof, dustproof, and rugged. The perfect companion for outdoor trips.", p_link: "https://www.pinterest.com/pin/your-link-19" },
+    { id: 20, title: "Stanley Quencher", price: "45", cat: "Home", img: "https://images.unsplash.com/photo-1678194411478-43306788220d", desc: "The viral 40oz tumbler. Keeps you hydrated with cold drinks for up to 48 hours.", p_link: "https://www.pinterest.com/pin/your-link-20" }
+];
+
+const grid = document.getElementById('product-grid');
+
+// 2. RENDERING LOGIC (Fixed image variable)
+function render(items) {
+    grid.innerHTML = items.map(p => `
+        <div class="bg-white rounded-3xl border border-slate-100 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-200 group flex flex-col">
+            <div class="h-64 bg-slate-50 relative overflow-hidden flex items-center justify-center p-6">
+                <img src="${p.img}" class="w-full h-auto object-contain mix-blend-multiply group-hover:scale-110 transition duration-700 max-h-full" loading="lazy">
+                <span class="absolute top-4 left-4 inline-block px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-full text-xs font-bold uppercase tracking-widest">${p.cat}</span>
+                <button onclick="viewProduct(${p.id})" class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                    <span class="bg-white text-slate-950 px-6 py-3 rounded-full font-bold shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">Quick View</span>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 flex-grow flex flex-col justify-between border-t border-slate-100">
+                <div>
+                    <h3 class="font-bold text-slate-900 truncate text-xl tracking-tight">${p.title}</h3>
+                    <div class="text-3xl font-black text-slate-950 mt-1 tracking-tighter">$${p.price}</div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 pt-3">
+                    <button onclick="viewProduct(${p.id})" class="text-sm font-bold bg-slate-100 text-slate-700 py-3.5 rounded-xl hover:bg-brand-primary hover:text-white transition-all active:scale-95">Details</button>
+                    <a href="#" target="_blank" class="text-sm font-bold bg-brand-accent text-white py-3.5 rounded-xl text-center hover:bg-orange-600 transition flex items-center justify-center gap-1.5 active:scale-95">
+                        Amazon
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// 3. PRODUCT DETAIL LOGIC (Fixed Description & Pinterest Link)
+function viewProduct(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+
+  // Update Detail Page Content
+document.getElementById('detail-title').innerText = p.title;
+document.getElementById('detail-price').innerText = `$${p.price}`;
+document.getElementById('detail-img').src = p.img;
+document.getElementById('detail-tag').innerText = p.cat;
+
+// 1. Description update line (Wahi rahegi)
+const descElement = document.querySelector('#detail-page p.text-slate-600');
+if(descElement) descElement.innerText = p.desc;
+
+// 2. Pinterest link update (Wahi rahegi)
+document.getElementById('pinterest-link').href = p.p_link;
+
+// 3. --- YE LINE CHANGE KARNI HAI ---
+// Pehle yahan amazonUrl tha, ab hum naya link (site_link) dal rahe hain
+document.getElementById('amazon-link').href = p.site_link; 
+
+// 4. (Opmtional) Agar aap button ka text bhi badalna chahte hain:
+document.getElementById('amazon-link').innerText = "Buy Now";
+
+    // Page Switch Logic
+    const alpineRoot = document.querySelector('[x-data]');
+    if (alpineRoot && window.Alpine) {
+        Alpine.$data(alpineRoot).page = 'detail';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 4. SEARCH & FILTER LOGIC
+function updateStatus(text) {
+    document.getElementById('filter-status').innerText = `Showing: ${text}`;
+}
+
+function handleSearch() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = products.filter(p => 
+        p.title.toLowerCase().includes(query) || 
+        p.cat.toLowerCase().includes(query)
+    );
+    render(filtered);
+    updateStatus(query ? `Results for "${query}"` : 'All Products');
+}
+
+function filterCategory(cat) {
+    const alpineRoot = document.querySelector('[x-data]');
+    if (alpineRoot && window.Alpine) { Alpine.$data(alpineRoot).page = 'home'; }
+    if(cat === 'all') { render(products); updateStatus('All Products'); } 
+    else { render(products.filter(p => p.cat === cat)); updateStatus(cat); }
+}
+
+// 5. INITIAL LOAD & NAVBAR
+window.onscroll = () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 30) {
+        nav.classList.add('h-16', 'shadow-xl'); nav.classList.remove('h-20');
+    } else {
+        nav.classList.add('h-20'); nav.classList.remove('h-16', 'shadow-xl');
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => { render(products); });
+    </script>
+</body>
+</html>
