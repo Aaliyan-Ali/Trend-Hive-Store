@@ -93,6 +93,8 @@
                 <button onclick="filterCategory('Fashion')" class="px-4 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all active:scale-95">Fashion</button>
                 <button onclick="filterCategory('Home')" class="px-4 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all active:scale-95">Home</button>
                   <button onclick="filterCategory('Skin Care')" class="px-4 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all active:scale-95">Skin Care</button>
+                <button onclick="filterCategory('Beauty')" class="px-4 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all active:scale-95">Beauty</button>
+               
                 <div class="relative ml-4 group">
                     <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="Search products..." 
                            class="bg-slate-100 border border-slate-200 rounded-full pl-10 pr-4 py-2 focus:ring-2 focus:ring-brand-primary focus:bg-white outline-none w-64 transition-all">
@@ -322,6 +324,17 @@ const products = [
     { id: 20, title: "5 Pack Men's Athletic Gym Shorts", price: "20", cat: "Fashion", img: "20.webp", desc: "5 Pack Men's Athletic Gym Shorts with Pockets Quick Dry Activewear Workout Running Shorts for Men", site_link: "https://amzn.to/47D5TMl" },
 { id: 21, title: "Oil Free Sunscreen for Sensitive Skin", price: "23.5", cat: "Skin Care", img: "21.webp", desc: "EltaMD UV Clear Tinted Face Sunscreen SPF 46, Oil Free Sunscreen for Sensitive Skin with Zinc Oxide, Dermatologist Recommended", site_link: "https://amzn.to/4c86hnd" },
 { id: 22, title: "Men's Yoga Mat Leather Flip Flops", price: "9.99", cat: "Fashion", img: "22.webp", desc: "KuaiLu Men's Yoga Mat Leather Flip Flops with Arch Support Comfortable Cushion Walking Thong Sandals Slip On Indoor Outdoor", site_link: "https://amzn.to/41jzpTK"  },
+{ id: 23, title: "Professional Makeup Brush Set", price: "9.99", cat: "Beauty", img: "24.webp", desc: "31PCS Professional Makeup Brush Set, 15 Premium Synthetic Brushes with 6 Makeup Sponges, 6 Powder Puffs, Spa Headband & Foldable Cleaning Basin, Complete Beauty Kit for Face Eye, Gift Set", site_link: "https://amzn.to/4c094Ah"  },
+{ id: 24, title: "Makeup Sponge Set", price: "9.95", cat: "Beauty", img: "23.webp", desc: "AOA Studio Collection makeup Sponge Set Latex Free and High-definition Set of 6 makeup Wonder blender For Powder Cream and Liquid, Super Soft Wonder Beauty Cosmetic", site_link: "https://amzn.to/4tDrgFR"  },
+{ id: 25, title: "Pro Eyelash Curler", price: "6", cat: "Beauty", img: "25.webp", desc: "Pro Eyelash Curler, Strong, Contoured, Eye-Opening, Voluminous Lashes, Includes Additional Rubber Replacement Pad, Silver", site_link: "https://amzn.to/4tEsWih"  },
+{ id: 26, title: "Flat Top Kabuki Foundation Brush", price: "9.85", cat: "Beauty", img: "26.webp", desc: "Flat Top Kabuki Foundation Brush By KESHIMA - Premium Makeup Brush for Liquid, Cream, and Powder - Buffing, Blending, and Face - 1.2 Top Diameter", site_link: "https://amzn.to/3OsKjni"  },
+{ id: 27, title: "Rotating Makeup Organizer", price: "12.78", cat: "Beauty", img: "27.webp", desc: "Rotating Makeup Organizer, DIY 8 Adjustable Layers Spinning Skincare Organizer, Cosmetic Display Case with Brush Holder Perfume Tray, Multi-Function Storage Carousel for Vanity Bathroom Countertop", site_link: "https://amzn.to/47Tg7s5"  },
+{ id: 27, title: "Rotating Makeup Organizer", price: "12.78", cat: "Beauty", img: "27.webp", desc: "Rotating Makeup Organizer, DIY 8 Adjustable Layers Spinning Skincare Organizer, Cosmetic Display Case with Brush Holder Perfume Tray, Multi-Function Storage Carousel for Vanity Bathroom Countertop", site_link: "https://amzn.to/47Tg7s5"  },
+
+
+
+
+    
 ];
 
 const grid = document.getElementById('product-grid');
